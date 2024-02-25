@@ -1,0 +1,33 @@
+
+
+ const [qualification, Setqualification] = useState([]);
+
+  // checkbox ctrl start
+  const list = ["matric", "intermediate", "graduation", "masters"];
+  const checkHandle = e => {
+    const { checked, value } = e.currentTarget;
+    Setqualification(
+      prev => checked
+        ? [...prev, value]
+        : prev.filter(val => val !== value)
+    );
+  };
+  // checkbox ctrl end
+
+
+  <Col md={6}>
+              <Form.Group className="mb-3">
+                {list.map(item => (
+                  <Form.Check
+                    inline
+                    key={item.toString()}
+                    label={item}
+                    value={item}
+                    type="checkbox"
+                    checked={qualification.some(val => val === item)}
+                    onChange={checkHandle}
+                  />
+                ))}
+                {errors.qualification && <p className='error'>{errors.qualification}</p>}
+              </Form.Group>
+            </Col>
