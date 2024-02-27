@@ -30,6 +30,7 @@ function Users() {
   const [viewUser, setViewUser] = useState(false);
   const [id, setId] = useState();
   const [conditionBlock, setConditionBlock] = useState(false);
+  const [disabled, setdisabled] = useState(false);
 
   // checkbox ctrl start
   const list = ["matric", "intermediate", "graduation", "masters"];
@@ -67,7 +68,7 @@ function Users() {
       values.address != '' &&
       values.gender != '' &&
       values.education != '') {
-      dispatch(createUser(values));
+      dispatch(createUser({ ...values, confirmPassword: undefined }));
       if (values) {
         setValues({
           name: '',
@@ -90,10 +91,13 @@ function Users() {
 
   const editUser = (id) => {
     setConditionBlock(true)
+    setdisabled(true)
     let editRow = userData.userDetail.filter((x) => x.id === id);;
     values.id = editRow[0].id;
     values.name = editRow[0].name;
     values.email = editRow[0].email;
+    values.password = editRow[0].password;
+    values.confirmPassword = editRow[0].password;
     values.cell = editRow[0].cell;
     values.usertype = editRow[0].usertype;
     values.address = editRow[0].address;
@@ -106,23 +110,22 @@ function Users() {
   const updateHandle = (e) => {
     e.preventDefault();
     setConditionBlock(false)
+    setdisabled(false)
     setErrors(validateInfo({ values }));
     if (values.name != '' &&
       values.email != '' &&
       values.password != '' &&
-      values.confirmPassword != '' &&
       values.cell != '' &&
       values.usertype != '' &&
       values.address != '' &&
       values.gender != '' &&
       values.education != '') {
-      dispatch(updateUser(values));
+      dispatch(updateUser({ ...values, confirmPassword: undefined }));
       if (values) {
         setValues({
           name: '',
           email: '',
           password: '',
-          confirmPassword: '',
           cell: '',
           usertype: '',
           address: '',
@@ -131,14 +134,11 @@ function Users() {
         })
       }
     }
-    // dispatch(updateUser(values));
-    // setTimeout(() => {
-    //   dispatch(fetchUsers());
-    // }, 1000);
   }
 
   const resetUpdate = () => {
     setConditionBlock(false)
+    setdisabled(false)
     setValues({
       name: '',
       email: '',
@@ -186,17 +186,20 @@ function Users() {
             <Col md={3}>
               <Form.Group className="mb-3">
                 <Form.Label>Password</Form.Label>
-                <Form.Control name='password' type="password" onChange={handleChnage} />
+                <Form.Control disabled={disabled} value={values.password} name='password' type="password" onChange={handleChnage} />
                 {errors.password && <p className='error'>{errors.password}</p>}
               </Form.Group>
             </Col>
-            <Col md={3}>
-              <Form.Group className="mb-3">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control name='confirmPassword' type="password" onChange={handleChnage} />
-                {errors.confirmPassword && <p className='error'>{errors.confirmPassword}</p>}
-              </Form.Group>
-            </Col>
+            {conditionBlock == false ?
+              <>
+                <Col md={3}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control disabled={disabled} value={values.confirmPassword} name='confirmPassword' type="password" onChange={handleChnage} />
+                    {errors.confirmPassword && <p className='error'>{errors.confirmPassword}</p>}
+                  </Form.Group>
+                </Col>
+              </> : null}
             <Col md={3}>
               <Form.Group className="mb-3">
                 <Form.Label>Cell</Form.Label>

@@ -75,7 +75,6 @@ export const loginUser = createAsyncThunk('api/login', async (data, { rejectWith
 
 
 
-
 const userDetail = createSlice({
     name: 'userDetail',
     initialState: {
