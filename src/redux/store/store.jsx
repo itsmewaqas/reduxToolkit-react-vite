@@ -1,18 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer,
+import {
+  persistStore, persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER, } from 'redux-persist';
+  REGISTER,
+} from 'redux-persist';
 import rootReducer from '../reducer/reducers';
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['users', 'userDetail'],//Things you want to persist
+  whitelist: ['users', 'userDetail', 'themeSlices'],//Things you want to persist
   blacklist: ['key3', 'key4'],//Things you don't want to persist
 };
 
