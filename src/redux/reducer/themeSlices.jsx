@@ -4,24 +4,21 @@ const themeSlices = createSlice({
     name: 'themeSlices',
     initialState: {
         themeSlices: 'light',
-        languageSlices:'en',
+        languageSlices: 'en',
     },
     reducers: {
 
         selectTheme(state, action) {
-            state.themeSlices = action.payload;
+            state.themeSlices = state.themeSlices === 'light' ? 'dark' : 'light';
         },
         selectLanguage(state, action) {
-            state.languageSlices = action.payload;
+            state.languageSlices = state.languageSlices === 'en' ? 'ar' : 'en';
         },
 
     },
 });
 
-console.log('themeSlices.actions', themeSlices.actions);
-
 export default themeSlices.reducer;
-
 export const { selectTheme, selectLanguage } = themeSlices.actions;
 
 

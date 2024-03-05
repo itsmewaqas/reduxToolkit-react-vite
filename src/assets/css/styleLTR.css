@@ -1,3 +1,5 @@
+@import url("styleLTR.css");
+
 @font-face {
   font-family: "CircularStd-Bold";
   src: url("../fonts/CircularStd-Bold.ttf") format("woff2");
@@ -22,6 +24,45 @@
   font-weight: normal;
   font-style: normal;
 }
+:root {
+  --primaryBGColor:#fff;
+  --secondaryBGColor:#1752f1;
+  --menuBGHover:#0a3abc;
+  --mainBG:#F7F8F8;
+  --primaryTextColor: #000;
+  --secondaryTextColor:#fff;
+  --borderColor1:#f8f8f8;
+}
+html[data-theme='light'] {
+  --primaryBGColor:#fff;
+  --secondaryBGColor:#1752f1;
+  --menuBGHover:#0a3abc;
+  --mainBG:#F7F8F8;
+  --primaryTextColor: #000;
+  --secondaryTextColor:#fff;
+  --borderColor1:#f8f8f8;
+}
+html[data-theme='dark'] {
+  --primaryBGColor:#3a444e;
+  --secondaryBGColor:#343a40;
+  --menuBGHover:#2d353d;
+  --mainBG:#3a444e;
+  --primaryTextColor: #fff;
+  --secondaryTextColor:#ccc;
+  --borderColor1:#000;
+}
+.themeToggle{
+  background-color: transparent;
+  border: none;
+  float: right;
+  padding: 12px;
+  font-size: 24px;
+}
+.langMenu{
+  float: right;
+  margin: 20px 6px;
+}
+
 html {
   width: 100%;
   height: 100%;
@@ -32,7 +73,7 @@ body {
   height: 100%;
   font-family: "CircularStd-Black";
   color: #000;
-  background-color: #fff;
+  background: var(--primaryBGColor);
   margin: 0px;
   padding: 0px;
   -webkit-font-smoothing: antialiased;
@@ -172,8 +213,8 @@ main {
   top: 0px;
   left: 0px;
   width: 100%;
-  background-color: #fff;
-  border-bottom: #e3e3e3 solid 1px;
+  background: var(--primaryBGColor);
+  border-bottom: var(--borderColor1) solid 1px;
   box-sizing: border-box;
   height: 61px;
   z-index: 99;
@@ -181,7 +222,7 @@ main {
 .dHeader .logoArea {
   width: 275px;
   float: left;
-  background-color: #fff;
+  background: var(--primaryBGColor);
   transition: all 0.4s;
 }
 .dHeader .logo {
@@ -198,7 +239,7 @@ main {
   width: 300px;
   height: 34px;
   margin: 10px 15px 0px;
-  border: #EAECEB solid 1px;
+  border: var(--borderColor1) solid 1px;
   border-radius: 4px;
   justify-content: space-between;
   flex-direction: row;
@@ -223,7 +264,7 @@ main {
   float: left;
   height: 100%; 
   box-sizing: border-box;
-  background-color: #1752f1;
+  background: var(--secondaryBGColor);
   transition: all 0.4s;
   background-size: cover;
   position: fixed;
@@ -233,9 +274,9 @@ main {
 }
 ul#scrollable {  overflow-y: scroll;height:650px; } 
 ul#scrollable::-webkit-scrollbar {  width: 10px;  } 
-ul#scrollable::-webkit-scrollbar-track {  background: #1752f1;  } 
-ul#scrollable::-webkit-scrollbar-thumb {  background: #0a3abc;  border-radius: 10px;  }
-ul:hover::-webkit-scrollbar-thumb {  background: #1752f1; }
+ul#scrollable::-webkit-scrollbar-track {  background: var(--secondaryBGColor) } 
+ul#scrollable::-webkit-scrollbar-thumb {   background: var(--secondaryBGColor);  border-radius: 10px;  }
+ul:hover::-webkit-scrollbar-thumb {   background: var(--menuBGHover) }
 ul.sidebar {
   display: block;
   margin: 0px;
@@ -255,7 +296,7 @@ ul.sidebar li a {
   box-sizing: border-box;
   font-size: 16px;
   line-height: 20px;
-  color: #fff;
+  color: var(--secondaryTextColor);
   cursor: pointer;
 }
 ul.sidebar li i {
@@ -264,13 +305,13 @@ ul.sidebar li i {
   top: 0px;
   left: 0px;
   font-size: 24px;
-  color: #fff;
+  color: var(--secondaryTextColor);
 }
 ul.sidebar li:hover>a,
 ul.sidebar li>a.active {
-  background-color: #0a3abc;
+  background: var(--menuBGHover);
   border-radius: 10px;
-  color: #fff;
+  color: var(--secondaryTextColor);
   -webkit-transition: all 0.4s;
   -moz-transition: all 0.4s;
   -o-transition: all 0.4s;
@@ -298,7 +339,7 @@ ul.sidebar li ul li a {
   border-left: none;
   font-size: 12px;
   line-height: 14px;
-  color: #fff;
+  color: var(--secondaryTextColor);
 }
 ul.sidebar li ul li:hover>a,
 ul.sidebar li ul li>a.active {
@@ -309,7 +350,7 @@ ul.sidebar li ul li>a.active {
   border-radius: 0px;
   background-color: transparent;
   border-left: none;
-  color: #fff;
+  color: var(--secondaryTextColor);
 }
 ul.sidebar li:hover ul {
   display: block;
@@ -327,7 +368,7 @@ ul.sidebar li:hover ul {
   width: 65px;
   float: left;
   min-height: 100vh;
-  background-color: #1752f1;
+  background: var(--secondaryBGColor);
   background-size: cover;
   -webkit-transition: all 0.4s;
   -moz-transition: all 0.4s;
@@ -345,7 +386,7 @@ ul.sidebar li:hover ul {
   padding: 18.5px 15px;
   box-sizing: border-box;
   left: 65px;
-  background-color: #1752f1;
+  background: var(--menuBGHover);
   top: 0px;
   position: absolute;
   z-index: 88;
@@ -356,10 +397,10 @@ ul.sidebar li:hover ul {
   padding: 0px;
 }
 .dMain{
-  background-color: #F7F8F8;
+  background: var(--mainBG);
 }
 .dContainer {
-  background-color: #F7F8F8;
+  background: var(--mainBG);
   margin-top: 60px;
   box-sizing: border-box;
   overflow: hidden;
@@ -369,7 +410,7 @@ ul.sidebar li:hover ul {
   transition: all 0.4s;
 }
 .dContainerCollaps {
-  background-color: #F7F8F8;
+  background: var(--mainBG);
   margin-top: 61px;
   box-sizing: border-box;
   overflow: hidden;
@@ -393,14 +434,14 @@ ul.sidebar li:hover ul {
   padding: 15px;
   box-sizing: border-box;
   display: block;
-  background-color: #fff;
-  border-top: #f8f8f8 solid 1px;
+  background: var(--primaryBGColor);
+  border-top: var(--borderColor1) solid 1px;
   position: relative;
   clear: both;
 }
 .dFooter p {
     text-align: right;
-    color: #000;
+    color: var(--primaryTextColor);
     margin: 0px;
     padding: 0px;
     font-family: "CircularStd-Light";
@@ -408,15 +449,15 @@ ul.sidebar li:hover ul {
 .profileMenu{
   float: right;
   position: relative;
-  border-left: #EAECEB solid 1px;
+  border-left: var(--borderColor1) solid 1px;
 }
 .profileMenu button{
   border: none;
-  background-color:#1752f1;
+  background: var(--secondaryBGColor);
   border-radius: 10px;
   margin: 15px 15px 13px 15px;
   padding: 5px 10px;
-  color: #fff;
+  color: var(--secondaryTextColor);
   font-size: 14px;
   font-family: "CircularStd-Bold";
 }
@@ -427,14 +468,14 @@ ul.sidebar li:hover ul {
   top: 61px;
   padding: 10px 0px;
   box-sizing: border-box;
-  background-color: #fff;
+  background: var(--primaryBGColor);
   box-shadow: rgba(0, 0, 0, 0.8);
-  border: #ccc solid 1px;
+  border: var(--borderColor1) solid 1px;
   border-radius: 5px;
   width: 220px;
 }
 .profileMenu ul li{
-  color: #000000;
+  color: var(--primaryTextColor);
   font-size: 12px;
   line-height: 14px;
   font-family: "CircularStd-Light";
@@ -453,10 +494,10 @@ ul.sidebar li:hover ul {
   color: red;
 }
 .profileMenu ul li:first-child{
-  color: #000000;
+  color: var(--primaryTextColor);
   font-size: 14px;
   line-height: 16px;
-  border-bottom: #E9ECEC solid 1px;
+  border-bottom: var(--borderColor1) solid 1px;
   margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
@@ -475,11 +516,11 @@ ul.sidebar li:hover ul {
   max-width: 200px;
 }
 .profileMenu ul li:first-child i{
-  background-color: #1752f1;
+  background: var(--secondaryBGColor);
   border-radius: 10px;
   width: 30px;
   height: 30px;
-  color: #fff;
+  color: var(--secondaryTextColor);
   text-align: center;
   font-size: 18px;
   font-family: "CircularStd-Bold";
@@ -492,7 +533,7 @@ ul.sidebar li:hover ul {
 .notificationMenu{
   float: right;
   position: relative;
-  border-left: #EAECEB solid 1px;
+  border-left: var(--borderColor1) solid 1px;
 }
 .notificationMenu button{
   border: none;
@@ -514,7 +555,7 @@ ul.sidebar li:hover ul {
   background-color: red;
   padding:1px 4px;
   border-radius: 7px;
-  color: #fff;
+  color: var(--secondaryTextColor);
   font-size: 10px;
   font-family: "CircularStd-Medium";
 }
@@ -525,15 +566,15 @@ ul.sidebar li:hover ul {
   top: 61px;
   padding: 10px 0px;
   box-sizing: border-box;
-  background-color: #fff;
+  background: var(--primaryBGColor);
   box-shadow: rgba(0, 0, 0, 0.06);
   border-radius: 0px 0px 4px 4px;
   width: 300px;
 }
 .notificationMenu ul li{
   font-family: "CircularStd-Light";
-  border: #E9ECEC solid 1px;
-  background-color: #fff;
+  border: var(--borderColor1) solid 1px;
+  background: var(--primaryBGColor);
   text-align: left;
   font-weight: 600;
   display: block;
@@ -543,8 +584,8 @@ ul.sidebar li:hover ul {
   box-sizing: border-box;
 }
 .notificationMenu ul li i{
-  background-color: #0a3abc;
-  color: #fff;
+  background: var(--secondaryBGColor);
+  color: var(--secondaryTextColor);
   font-size: 14px;
   line-height: 18px;
   text-align: center;
@@ -576,7 +617,7 @@ ul.sidebar li:hover ul {
   text-transform: capitalize;
 }
 .dashboardCards{
-  background-color: #fff;
+  background: var(--primaryBGColor);
   border-radius: 5px;
   padding: 30px 15px;
   margin: 15px 0px;
@@ -590,7 +631,7 @@ ul.sidebar li:hover ul {
   line-height: 24px;
   padding: 0px;
   font-family: "CircularStd-Medium";
-  color: #000;
+  color: var(--primaryTextColor);
   font-weight: 500;
 }
 .dashboardCards h1 span{
@@ -624,7 +665,7 @@ ul.cList li{
   margin: 0px 0px 15px;
   padding: 15px;
   box-sizing: border-box;
-  background-color: #fff;
+  background: var(--primaryBGColor);
   font-size: 16px;
   line-height: 20px;
   display: block;
@@ -671,9 +712,9 @@ ul.cList li a{
   top: 10px;
   box-sizing: border-box;
   position: absolute !important;
-  background-color: #1752f1 !important;
+  background: var(--secondaryBGColor) !important;
   border-radius: 0px 10px 10px 0px;
-  color: #fff;
+  color: var(--secondaryTextColor);
   z-index: 88;
   display: inline !important;
 }
@@ -684,7 +725,7 @@ ul.cList li a{
   left: 65px;
   top: 40px;
   position: absolute;
-  background-color: #1752f1;
+  background: var(--secondaryBGColor) !important;
 }
 .dSidebarCollaps ul li ul {
   padding: 15px 0px 0px 0px;

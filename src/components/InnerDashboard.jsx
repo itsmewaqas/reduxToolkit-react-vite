@@ -3,8 +3,13 @@ import { Outlet } from "react-router-dom";
 import DashHeader from '../components/DashHeader';
 import DashSidebar from '../components/DashSidebar';
 import DashFooter from '../components/DashFooter';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectTheme, selectLanguage } from '../redux/reducer/themeSlices';
 
 function InnerDashboard(props) {
+
+  const data = useSelector((state) => state);
+  let getTheme = data.themeSlices.themeSlices;
 
   const [sidebarCtrl, sidebarCtrlSet] = useState("dSidebar");
   const [titleCtrl, titleCtrlSet] = useState("titleShow");
@@ -17,10 +22,11 @@ function InnerDashboard(props) {
   }
 
   useEffect(() => {
-  }, [])
+    document.documentElement.setAttribute("data-theme", getTheme);
+  }, [getTheme])
 
   return (
-    <div className='dMain'>
+    <div className={`dMain ${getTheme}`} data-theme={getTheme}>
       <DashHeader
         sidebarCtrlFunc={sidebarCtrlFunc}
         titleCtrl={titleCtrl} />
