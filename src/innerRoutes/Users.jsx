@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Container, Row, Col, Table, Button, Form, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import Pagination from 'rc-pagination';
 import { addUser, removeUser } from '../redux/reducer/slices';
 import { createUser, fetchUsers, deleteUser, updateUser } from '../redux/reducer/userDetail';
 import validateInfo from '../components/validation';
 import UserView from './UserView';
+import { BiSkipPrevious, BiSkipNext } from "react-icons/bi";
 
 function Users() {
 
@@ -156,6 +158,40 @@ function Users() {
     dispatch(fetchUsers());
   }, [])
 
+  //pagination code start
+  const [perPage, setPerPage] = useState(5);
+  const [size, setSize] = useState(perPage);
+  const [current, setCurrent] = useState(1);
+
+  const PerPageChange = (value) => {
+    setSize(value);
+    const newPerPage = Math.ceil(userData.userDetail.length / value);
+    if (current > newPerPage) {
+      setCurrent(newPerPage);
+    }
+  }
+
+  const getData = (current, pageSize) => {
+    return userData.userDetail.slice((current - 1) * pageSize, current * pageSize);
+  };
+
+  const PaginationChange = (page, pageSize) => {
+    setCurrent(page);
+    setSize(pageSize)
+  }
+
+  const PrevNextArrow = (current, type, originalElement) => {
+    if (type === 'prev') {
+      return <button className='buttonstyle'><BiSkipPrevious /></button>;
+    }
+    if (type === 'next') {
+      return <button className='buttonstyle'><BiSkipNext /></button>;
+    }
+    return originalElement;
+  }
+
+  //pagination code end
+
   if (userData.loading) {
     return (<Spinner animation="border" role="status" variant="primary" size="md">
       <span className="visually-hidden">Loading...</span>
@@ -291,7 +327,7 @@ function Users() {
             </tr>
           </thead>
           <tbody>
-            {userData.userDetail?.map((item, index) => {
+            {getData(current, size).map((item, index) => {
               return (
                 <tr key={index.toString()}>
                   <td>{item.id}</td>
@@ -310,6 +346,17 @@ function Users() {
             })}
           </tbody>
         </Table>
+        <Pagination
+          className="pagination-data"
+          showTotal={(total, range) => `Showing ${range[0]}-${range[1]} of ${total}`}
+          onChange={PaginationChange}
+          total={userData.userDetail.length}
+          current={current}
+          pageSize={size}
+          showSizeChanger={false}
+          itemRender={PrevNextArrow}
+          onShowSizeChange={PerPageChange}
+        />
       </Container>
     </div>
   )
