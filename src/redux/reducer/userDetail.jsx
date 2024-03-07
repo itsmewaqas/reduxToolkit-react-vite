@@ -10,7 +10,7 @@ export const createUser = createAsyncThunk("createUser", async (data, { rejectWi
             },
             method: "post",
         });
-        return response.data; 
+        return response.data;
     } catch (error) {
         return rejectWithValue(error);
     }
@@ -19,7 +19,7 @@ export const createUser = createAsyncThunk("createUser", async (data, { rejectWi
 export const fetchUsers = createAsyncThunk('fetchUsers', async (_, { rejectWithValue }) => {
     try {
         const response = await axios.get('https://65d481c63f1ab8c6343550a5.mockapi.io/crm');
-        return response.data; 
+        return response.data;
     } catch (error) {
         return rejectWithValue(error);
     }
@@ -28,7 +28,7 @@ export const fetchUsers = createAsyncThunk('fetchUsers', async (_, { rejectWithV
 export const deleteUser = createAsyncThunk('deleteUser', async (id, { rejectWithValue }) => {
     try {
         const response = await axios.delete(`https://65d481c63f1ab8c6343550a5.mockapi.io/crm/${id}`, {
-            data: {}, 
+            data: {},
         });
         return response.data;
     } catch (error) {
@@ -81,8 +81,16 @@ const userDetail = createSlice({
         userDetail: [],
         loading: false,
         error: null,
+        search: []
     },
-    // reducers: {},
+
+    reducers: {
+        searchUser: (state, action) => {
+            state.search = action.payload;
+            console.log(action.payload)
+        }
+    },
+
     extraReducers: (builder) => {
         builder
 
@@ -157,7 +165,7 @@ console.log(userDetail.actions);
 
 export default userDetail.reducer;
 
-// export const { addInfo } = userDetail.actions;
+export const { searchUser } = userDetail.actions;
 
 
 

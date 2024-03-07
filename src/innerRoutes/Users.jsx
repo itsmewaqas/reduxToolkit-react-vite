@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Container, Row, Col, Table, Button, Form, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import Pagination from 'rc-pagination';
 import { addUser, removeUser } from '../redux/reducer/slices';
-import { createUser, fetchUsers, deleteUser, updateUser } from '../redux/reducer/userDetail';
+import { createUser, fetchUsers, deleteUser, updateUser, searchUser } from '../redux/reducer/userDetail';
 import validateInfo from '../components/validation';
 import UserView from './UserView';
 import { BiSkipPrevious, BiSkipNext } from "react-icons/bi";
@@ -33,6 +32,12 @@ function Users() {
   const [id, setId] = useState();
   const [conditionBlock, setConditionBlock] = useState(false);
   const [disabled, setdisabled] = useState(false);
+  const [search, setSearch] = useState('');
+  const [radioData, setRadioData] = useState("");
+
+  useEffect(() => {
+    dispatch(searchUser(search));
+  }, [search])
 
   // checkbox ctrl start
   const list = ["matric", "intermediate", "graduation", "masters"];
@@ -158,39 +163,6 @@ function Users() {
     dispatch(fetchUsers());
   }, [])
 
-  //pagination code start
-  const [perPage, setPerPage] = useState(5);
-  const [size, setSize] = useState(perPage);
-  const [current, setCurrent] = useState(1);
-
-  const PerPageChange = (value) => {
-    setSize(value);
-    const newPerPage = Math.ceil(userData.userDetail.length / value);
-    if (current > newPerPage) {
-      setCurrent(newPerPage);
-    }
-  }
-
-  const getData = (current, pageSize) => {
-    return userData.userDetail.slice((current - 1) * pageSize, current * pageSize);
-  };
-
-  const PaginationChange = (page, pageSize) => {
-    setCurrent(page);
-    setSize(pageSize)
-  }
-
-  const PrevNextArrow = (current, type, originalElement) => {
-    if (type === 'prev') {
-      return <button className='buttonstyle'><BiSkipPrevious /></button>;
-    }
-    if (type === 'next') {
-      return <button className='buttonstyle'><BiSkipNext /></button>;
-    }
-    return originalElement;
-  }
-
-  //pagination code end
 
   if (userData.loading) {
     return (<Spinner animation="border" role="status" variant="primary" size="md">
@@ -314,6 +286,43 @@ function Users() {
             </div>
           </Row>
         </form>
+        <Row>
+          <input type="text"
+            name='search'
+            placeholder='Search User'
+            onChange={(e) => setSearch(e.target.value)} />
+        </Row>
+        <Row>
+          <Form.Group className="mb-3">
+            <Form.Check
+              inline
+              type='radio'
+              label='All'
+              checked={radioData === ''}
+              name='gender'
+              value="All"
+              onChange={(e) => setRadioData(e.target.value)}
+            />
+            <Form.Check
+              inline
+              type='radio'
+              label='Male'
+              checked={radioData === 'Male'}
+              name='gender'
+              value="Male"
+              onChange={(e) => setRadioData(e.target.value)}
+            />
+            <Form.Check
+              inline
+              type='radio'
+              label='Female'
+              checked={radioData === 'Female'}
+              name='gender'
+              value="Female"
+              onChange={(e) => setRadioData(e.target.value)}
+            />
+          </Form.Group>
+        </Row>
         <Table size="md">
           <thead>
             <tr>
@@ -327,36 +336,43 @@ function Users() {
             </tr>
           </thead>
           <tbody>
-            {getData(current, size).map((item, index) => {
-              return (
-                <tr key={index.toString()}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.email}</td>
-                  <td>{item.cell}</td>
-                  <td>{item.address}</td>
-                  <td>{item.gender}</td>
-                  <td>
-                    <Button onClick={() => [setId(item.id), setViewUser(true)]} variant="outline-dark" size="sm">View</Button>
-                    <Button onClick={() => editUser(item.id)} variant="outline-dark" size="sm">Edit</Button>
-                    <Button onClick={() => removeUser(item.id)} variant="outline-dark" size="sm">Delete</Button>
-                  </td>
-                </tr>
-              )
-            })}
+            {userData.userDetail
+              &&
+              userData.userDetail.filter((el) => {
+                if (userData.search.length === 0) {
+                  return el;
+                }
+                else {
+                  return el.name.toLowerCase().includes(search.toLowerCase())
+                }
+              }).filter((el) => {
+                if (radioData === "Male") {
+                  return el.gender === radioData;
+                }
+                else if (radioData === "Female") {
+                  return el.gender === radioData;
+                }
+                else return el;
+              })
+                .map((item, index) => {
+                  return (
+                    <tr key={index.toString()}>
+                      <td>{item.id}</td>
+                      <td>{item.name}</td>
+                      <td>{item.email}</td>
+                      <td>{item.cell}</td>
+                      <td>{item.address}</td>
+                      <td>{item.gender}</td>
+                      <td>
+                        <Button onClick={() => [setId(item.id), setViewUser(true)]} variant="outline-dark" size="sm">View</Button>
+                        <Button onClick={() => editUser(item.id)} variant="outline-dark" size="sm">Edit</Button>
+                        <Button onClick={() => removeUser(item.id)} variant="outline-dark" size="sm">Delete</Button>
+                      </td>
+                    </tr>
+                  )
+                })}
           </tbody>
         </Table>
-        <Pagination
-          className="pagination-data"
-          showTotal={(total, range) => `Showing ${range[0]}-${range[1]} of ${total}`}
-          onChange={PaginationChange}
-          total={userData.userDetail.length}
-          current={current}
-          pageSize={size}
-          showSizeChanger={false}
-          itemRender={PrevNextArrow}
-          onShowSizeChange={PerPageChange}
-        />
       </Container>
     </div>
   )
