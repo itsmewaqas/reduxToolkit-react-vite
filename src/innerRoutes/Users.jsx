@@ -7,6 +7,10 @@ import validateInfo from '../components/validation';
 import UserView from './UserView';
 import { BiSkipPrevious, BiSkipNext } from "react-icons/bi";
 
+import CryptoAES from 'crypto-js/aes';
+import CryptoENC from 'crypto-js/enc-utf8';
+import CryptoJS from 'crypto-js';
+
 function Users() {
 
   const dispatch = useDispatch();
@@ -75,7 +79,8 @@ function Users() {
       values.address != '' &&
       values.gender != '' &&
       values.education != '') {
-      dispatch(createUser({ ...values, confirmPassword: undefined }));
+      const encryptedPassword = CryptoAES.encrypt(values.password, 'your-secret-key').toString();
+      dispatch(createUser({ ...values, password: encryptedPassword, confirmPassword: undefined }));
       if (values) {
         setValues({
           name: '',
@@ -110,9 +115,10 @@ function Users() {
     values.address = editRow[0].address;
     values.gender = editRow[0].gender;
     const eduList = editRow[0].education.toString().split(',');
+    const decryptedBytes = CryptoAES.decrypt(editRow[0].password, 'your-secret-key');
+    const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
     setEdu(eduList);
   }
-
 
   const updateHandle = (e) => {
     e.preventDefault();
